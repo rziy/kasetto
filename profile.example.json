@@ -1,0 +1,9 @@
+{
+  "username": "name shown in personal mode",
+  "title": "Your name",
+  "subtitle": "A short line under the title",
+  "labels": { "3": "@yourhandle", "6": "@otherhandle" },
+  "miniText": "Short text",
+  "activity": "Personal Profile",
+  "icons": {}
+}

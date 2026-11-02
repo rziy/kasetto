@@ -27,15 +27,38 @@ const discord = createDiscordClient({
   userId: config.discordUserId,
   botToken: config.discordBotToken,
 });
+const { createProfileStore } = require("./src/profile");
+const profiles = createProfileStore({ file: config.profileFile, fallbackUsername: config.lastfmUser, logger });
+config.getProfile = profiles.get;
+
+let dashboard = null;
+if (config.dashboardPassword) {
+  const { createDashboard } = require("./src/dashboard");
+  dashboard = createDashboard({
+    password: config.dashboardPassword,
+    host: config.dashboardHost,
+    port: config.dashboardPort,
+    store: profiles,
+    trustProxy: config.dashboardTrustProxy,
+    logger,
+  });
+  dashboard.start();
+}
+
 const runner = createRunner({ config, lastfm, discord, logger });
 
 for (const signal of ["SIGINT", "SIGTERM"]) {
   process.on(signal, () => {
     logger.info(`${signal} received, shutting down`);
     runner.stop();
+    if (dashboard) dashboard.stop();
     process.exit(0);
   });
 }
+
+process.on("uncaughtException", (err) => {
+  logger.error("Uncaught exception:", err.message);
+});
 
 process.on("unhandledRejection", (reason) => {
   logger.error("Unhandled rejection:", reason instanceof Error ? reason.message : reason);

@@ -68,13 +68,24 @@ function loadConfig(env = process.env, profileFile = path.join(__dirname, "..", 
     problems.push(err.message);
   }
 
+  const pw = (env.DASHBOARD_PASSWORD || "").trim();
+  if (pw && pw.length < 8) problems.push("DASHBOARD_PASSWORD must be at least 8 characters");
+
   if (problems.length) {
     throw new Error(`Invalid configuration:\n  - ${problems.join("\n  - ")}`);
   }
 
   const lastfmUser = env.LASTFM_USER.trim();
-  const profile = loadProfile(profileFile);
+  let profile;
+  try {
+    profile = loadProfile(profileFile);
+  } catch {
+    profile = { ...DEFAULT_PROFILE }; // broken profile.json: the live store warns and keeps the last good one
+  }
   if (!profile.username) profile.username = lastfmUser;
+
+  const dashboardPassword = (env.DASHBOARD_PASSWORD || "").trim();
+  const panelPort = Number.parseInt(env.SERVER_PORT || env.PORT || "", 10);
 
   return {
     lastfmUser,
@@ -86,6 +97,11 @@ function loadConfig(env = process.env, profileFile = path.join(__dirname, "..", 
     intervalMs: intervalSec * 1000,
     statsTtlMs: statsTtlSec * 1000,
     profile,
+    profileFile,
+    dashboardPassword,
+    dashboardTrustProxy: ["1", "true"].includes((env.DASHBOARD_TRUST_PROXY || "").trim().toLowerCase()),
+    dashboardPort: Number.isFinite(panelPort) ? panelPort : readInt(env, "DASHBOARD_PORT", 3000, 1),
+    dashboardHost: (env.DASHBOARD_HOST || "").trim() || (Number.isFinite(panelPort) ? "0.0.0.0" : "127.0.0.1"),
   };
 }
 

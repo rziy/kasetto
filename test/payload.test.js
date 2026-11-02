@@ -21,7 +21,7 @@ test("music payload has unique field names and fills all six stat slots", () => 
   assert.equal(f.stat1, "12.3K");
   assert.equal(f.label3, "Friends");
   assert.equal(f.stat3, "3");
-  assert.equal(f.subtitle_3, "@me");
+  assert.equal(f.subtitle_3, "[@me](https://www.last.fm/user/me)");
 });
 
 test("music payload falls back to the turntable icon when there is no cover", () => {

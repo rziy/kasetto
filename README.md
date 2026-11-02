@@ -85,19 +85,31 @@ Displays your currently playing track.
 
 Displays your custom profile.
 
+## Editing your profile
+
+Copy `profile.example.json` to `profile.json` first (it is optional: without it the defaults are used, and saving from the settings page creates it). `profile.json` is git-ignored, so your own edits never end up in commits.
+
+`profile.json` is re-read automatically, so edits apply within one update cycle (no restart). A typo in the file is ignored and the last good version stays active; the log tells you what is wrong.
+
+`profile.json` also accepts an `icons` object to replace any image from `src/icons.js` (keys: `TURNTABLE`, `SCROBBLE`, `HEART`, `FRIENDS`, `TRACK`, `ALBUM`, `ARTIST`, `MUSIC`, `HEADER`, `GIF_HEADER`). Values must be public `https://` links.
+
+### Web settings page (optional)
+
+Set `DASHBOARD_PASSWORD` (8+ characters) in `.env` to turn on a settings page with a form for all of the above.
+
+- Locally it listens on `http://127.0.0.1:3000` only. On a panel that provides `SERVER_PORT` or `PORT` it uses that port on `0.0.0.0`.
+- Any user name works; the password is the only credential. After 10 wrong passwords an IP is blocked for 15 minutes.
+- The page is plain HTTP unless you put HTTPS in front of it, so use a long password you don't use anywhere else.
+- Behind a reverse proxy every visitor shares the proxy's address, so one person's wrong passwords would lock everyone out. Set `DASHBOARD_TRUST_PROXY=1` there to count attempts per real visitor (only when a proxy really sits in front, otherwise the header can be faked). The first request is logged with the addresses the app sees.
+- It never shows or edits `.env`.
+
 ## Hosting on a free panel
 
-- Upload everything except `.env`, `.git` and `node_modules`.
+- Upload everything except `.env`, `.git` and `node_modules`. Your own `profile.json` can be uploaded or created from the settings page.
 - Set the start command to `npm start` (or `node index.js`) and run `npm install` once.
 - Add the variables from `.env.example` either in the panel's environment settings or in a `.env` file created on the server.
 - No web port is needed. The app only makes outgoing requests, and memory use is small.
 - Errors back off automatically (up to 5 minutes) and Discord rate limits are respected.
-
-## Tests
-
-```bash
-npm test
-```
 
 ## License
 

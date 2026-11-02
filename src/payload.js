@@ -1,6 +1,6 @@
 "use strict";
 
-const icons = require("./icons");
+const defaultIcons = require("./icons");
 const { formatNumber } = require("./format");
 
 const TEXT = 1;
@@ -12,25 +12,25 @@ const BLANK = "\u200E ";
 const text = (name, value) => ({ type: TEXT, name, value });
 const image = (name, url) => ({ type: IMAGE, name, value: { url } });
 
-function buildMusicPayload({ username, track, stats }) {
+function buildMusicPayload({ username, track, stats, icons = defaultIcons }) {
   const cover = track.cover || icons.TURNTABLE;
 
   const slots = [
-    ["Scrobbles", stats.playcount, icons.SCROBBLE],
-    ["Loved Tracks", stats.loved, icons.HEART],
-    ["Friends", stats.friends, icons.FRIENDS],
-    ["Tracks", stats.tracks, icons.TRACK],
-    ["Albums", stats.albums, icons.ALBUM],
-    ["Artists", stats.artists, icons.ARTIST],
-  ];
+  ["Scrobbles", stats.playcount, icons.SCROBBLE],
+  ["Loved Tracks", stats.loved, icons.HEART],
+  ["Friends", stats.friends, icons.FRIENDS],
+  ["Tracks", stats.tracks, icons.TRACK],
+  ["Albums", stats.albums, icons.ALBUM],
+  ["Artists", stats.artists, icons.ARTIST],
+];
 
-  const dynamic = [
-    image("header", cover),
-    text("text_title", track.name),
-    text("subtitle_1", track.artist),
-    text("subtitle_2", track.album),
-    text("subtitle_3", `@${username}`),
-  ];
+ const dynamic = [
+  image("header", cover),
+  text("text_title", track.name),
+  text("subtitle_1", track.artist),
+  text("subtitle_2", track.album),
+  text("subtitle_3", `[@${username}](https://www.last.fm/user/${username})`),
+];
 
   slots.forEach(([label, value, icon], i) => {
     const n = i + 1;
@@ -51,6 +51,7 @@ function buildMusicPayload({ username, track, stats }) {
 }
 
 function buildPersonalPayload(profile) {
+  const icons = { ...defaultIcons, ...(profile.icons || {}) };
   const labels = profile.labels || {};
 
   const dynamic = [

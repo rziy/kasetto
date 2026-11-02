@@ -2,6 +2,7 @@
 
 const { buildMusicPayload, buildPersonalPayload } = require("./payload");
 const { describeError } = require("./errors");
+const defaultIcons = require("./icons");
 
 const HEARTBEAT_MS = 10 * 60 * 1000; // re-send an unchanged profile at least this often
 const MAX_BACKOFF_MS = 5 * 60 * 1000;
@@ -20,10 +21,16 @@ function createRunner({ config, lastfm, discord, logger, now = Date.now }) {
       const track = forced === "personal" ? null : await lastfm.getNowPlaying();
       const mode = forced || (track.isNowPlaying ? "music" : "personal");
 
+      const profile = config.getProfile ? config.getProfile() : config.profile;
       const payload =
         mode === "music"
-          ? buildMusicPayload({ username: config.lastfmUser, track, stats: await lastfm.getStats() })
-          : buildPersonalPayload(config.profile);
+          ? buildMusicPayload({
+              username: config.lastfmUser,
+              track,
+              stats: await lastfm.getStats(),
+              icons: { ...defaultIcons, ...(profile.icons || {}) },
+            })
+          : buildPersonalPayload(profile);
 
       const body = JSON.stringify(payload);
       if (body !== lastBody || now() - lastSentAt >= HEARTBEAT_MS) {
