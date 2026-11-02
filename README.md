@@ -1,4 +1,4 @@
-# Turntable
+# Kasetto The Music Tracker
 
 ![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js)
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
@@ -19,8 +19,8 @@ A customizable Discord Social SDK widget powered by Last.fm.
 ## Installation
 
 ```bash
-git clone https://github.com/rziy/turntable.git
-cd turntable
+git clone https://github.com/rziy/kasetto.git
+cd kasetto
 npm install
 ```
 

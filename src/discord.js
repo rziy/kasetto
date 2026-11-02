@@ -10,7 +10,7 @@ function createDiscordClient({ appId, userId, botToken }) {
     headers: {
       Authorization: `Bot ${botToken}`,
       "Content-Type": "application/json",
-      "User-Agent": `DiscordBot (https://github.com/rziy/turntable, ${version})`,
+      "User-Agent": `DiscordBot (https://github.com/rziy/kasetto, ${version})`,
     },
   });
 

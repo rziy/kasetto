@@ -64,5 +64,5 @@ process.on("unhandledRejection", (reason) => {
   logger.error("Unhandled rejection:", reason instanceof Error ? reason.message : reason);
 });
 
-logger.info(`Turntable started (every ${config.intervalMs / 1000}s${config.forceMode ? `, forced ${config.forceMode} mode` : ""})`);
+logger.info(`Kasetto started (every ${config.intervalMs / 1000}s${config.forceMode ? `, forced ${config.forceMode} mode` : ""})`);
 runner.start();

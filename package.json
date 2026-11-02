@@ -1,5 +1,5 @@
 {
-  "name": "turntable",
+  "name": "kasetto",
   "version": "1.1.0",
   "description": "A customizable Discord Social SDK widget powered by Last.fm.",
   "main": "index.js",

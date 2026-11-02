@@ -3,7 +3,7 @@
 module.exports = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Turntable settings</title>
+<title>Kasetto settings</title>
 <style>
 :root{--bg:#f6f7f5;--panel:#fff;--ink:#1d2321;--mute:#667570;--line:#d9dfdc;--accent:#1c7c6f;--bad:#b3261e;color-scheme:light dark}
 @media (prefers-color-scheme:dark){:root{--bg:#141817;--panel:#1c2220;--ink:#e8eeeb;--mute:#93a39d;--line:#2d3633;--accent:#4cc2b0;--bad:#ff8a80}}
@@ -29,7 +29,7 @@ button{background:var(--accent);color:#fff;border:0;border-radius:6px;padding:10
 button:disabled{opacity:.6;cursor:wait}
 #msg{font-size:.95rem}.ok{color:var(--accent)}.err{color:var(--bad)}
 </style></head><body><main>
-<h1>Turntable settings</h1>
+<h1>Kasetto settings</h1>
 <p class="lead">Changes apply to the personal profile within one update cycle. No restart needed. Images must be public https links, because Discord cannot read files from your server.</p>
 <form id="f">
 <section><h2>Text</h2>

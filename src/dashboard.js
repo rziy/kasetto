@@ -93,7 +93,7 @@ function createDashboard({ password, host, port, store, logger, trustProxy = fal
         fails.set(ip, f);
       }
       return send(res, 401, "Password required", "text/plain; charset=utf-8", {
-        "WWW-Authenticate": 'Basic realm="Turntable settings", charset="UTF-8"',
+        "WWW-Authenticate": 'Basic realm="Kasetto settings", charset="UTF-8"',
       });
     }
     fails.delete(ip);
